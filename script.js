@@ -1,8 +1,7 @@
 // 🔹 Initialize Supabase
-const supabaseUrl = "YOUR_PROJECT_URL";
-const supabaseKey = "YOUR_ANON_PUBLIC_KEY";
-
-const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+const supabaseUrl = 'YOUR_SUPABASE_URL_HERE';
+const supabaseKey = 'YOUR_ANON_KEY_HERE';
+const supabase = supabasejs.createClient(supabaseUrl, supabaseKey);
 const searchBtn = document.getElementById("searchBtn");
 const searchInput = document.getElementById("searchInput");
 const resultsBody = document.getElementById("resultsBody");
@@ -103,4 +102,16 @@ signupForm.addEventListener("submit", async (e) => {
         signupMessage.textContent = "Signup successful! Check your email.";
         signupForm.reset();
     }
+    async function findMusicFromDatabase(songName) {
+    let { data: songs, error } = await supabase
+        .from('songs')
+        .select('*')
+        .eq('song_title', songName);
+
+    if (error) {
+        console.error("Error fetching data:", error);
+        return;
+    }
+    renderResults(songs);
+}
 });
