@@ -1,3 +1,8 @@
+// 🔹 Initialize Supabase
+const supabaseUrl = "YOUR_PROJECT_URL";
+const supabaseKey = "YOUR_ANON_PUBLIC_KEY";
+
+const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 const searchBtn = document.getElementById("searchBtn");
 const searchInput = document.getElementById("searchInput");
 const resultsBody = document.getElementById("resultsBody");
@@ -72,3 +77,30 @@ function showError(message) {
     errorMessage.textContent = message;
     errorMessage.classList.remove("hidden");
 }
+// 🔹 Authentication — Signup Code
+const signupForm = document.getElementById("signupForm");
+const emailInput = document.getElementById("emailInput");
+const passwordInput = document.getElementById("passwordInput");
+const signupMessage = document.getElementById("signupMessage");
+
+signupForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = emailInput.value;
+    const password = passwordInput.value;
+
+    signupMessage.textContent = "Signing up...";
+
+    const { data, error } = await supabase.auth.signUp({
+        email: email,
+        password: password
+    });
+
+    if (error) {
+        signupMessage.textContent = "Error: " + error.message;
+        console.error(error);
+    } else {
+        signupMessage.textContent = "Signup successful! Check your email.";
+        signupForm.reset();
+    }
+});
