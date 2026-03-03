@@ -1,6 +1,6 @@
 // 🔹 Initialize Supabase
-const supabaseUrl = 'YOUR_SUPABASE_URL_HERE';
-const supabaseKey = 'YOUR_ANON_KEY_HERE';
+const supabaseUrl = 'https://anazgxxzlbauilhzexgi.supabase.co';
+const supabaseKey = 'sb_publishable_qPErfSATKVqxKA76WhpUiQ_EpLQONJA';
 const supabase = supabasejs.createClient(supabaseUrl, supabaseKey);
 const searchBtn = document.getElementById("searchBtn");
 const searchInput = document.getElementById("searchInput");
