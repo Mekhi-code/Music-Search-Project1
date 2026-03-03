@@ -28,11 +28,6 @@ searchBtn.addEventListener("click", () => {
     searchSong(query);
 });
 
-// Search using iTunes API (Live working example)
-function searchSong(query) {
-    loading.classList.remove("hidden");
-    errorMessage.classList.add("hidden");
-    resultsBody.innerHTML = "";
 
 // Search using iTunes API (Live working example)
 function searchSong(query) {
@@ -40,15 +35,26 @@ function searchSong(query) {
   errorMessage.classList.add("hidden");
   resultsBody.innerHTML = "";
 
-  fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(query)}&entity=song&limit=5`)
-    .then(response => response.json())
-    .then(data => {
-      loading.classList.add("hidden");
+  // This replaces the entire fetch block
+const { data: songs, error } = await supabase
+    .from('Songs')          // Matches your table name exactly
+    .select('*')            // Select all columns (artist_name, duration, etc.)
+    .eq('song_title', query); // Matches your column name exactly
 
-      if (data.results.length === 0) {
-        showError("No results found.");
-        return;
-      }
+loading.classList.add("hidden"); // Hide the loader after data arrives
+
+if (error) {
+    console.error("Supabase Error:", error);
+    showError("Could not fetch data.");
+    return;
+}
+
+if (!songs || songs.length === 0) {
+    showError("No artist found in your database.");
+    return;
+}
+
+renderResults(songs); // Send your database rows to the table
 }
 
             if (data.results.length === 0) {
