@@ -34,35 +34,21 @@ function searchSong(query) {
     errorMessage.classList.add("hidden");
     resultsBody.innerHTML = "";
 
-    // Replace your existing searchSong function with this:
-async function searchSong(query) {
-    loading.classList.remove("hidden");
-    errorMessage.classList.add("hidden");
-    resultsBody.innerHTML = "";
+// Search using iTunes API (Live working example)
+function searchSong(query) {
+  loading.classList.remove("hidden");
+  errorMessage.classList.add("hidden");
+  resultsBody.innerHTML = "";
 
-    // 1. Search your Supabase database instead of iTunes
-    // Use .ilike for case-insensitive searching (handles capitals automatically)
-    const { data: songs, error } = await supabase
-        .from('Songs') // Make sure this matches your table name exactly
-        .select('*')
-        .ilike('song_name', `%${query}%`); // Searches for the name anywhere in the text
+  fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(query)}&entity=song&limit=5`)
+    .then(response => response.json())
+    .then(data => {
+      loading.classList.add("hidden");
 
-    loading.classList.add("hidden");
-
-    // 2. Handle Errors or No Results
-    if (error) {
-        console.error("Supabase error:", error);
-        showError("Could not connect to database.");
+      if (data.results.length === 0) {
+        showError("No results found.");
         return;
-    }
-
-    if (songs.length === 0) {
-        showError("No results found in your database.");
-        return;
-    }
-
-    // 3. Send the data to your table
-    renderResults(songs);
+      }
 }
 
             if (data.results.length === 0) {
