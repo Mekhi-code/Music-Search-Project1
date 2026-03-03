@@ -102,7 +102,8 @@ signupForm.addEventListener("submit", async (e) => {
         signupMessage.textContent = "Signup successful! Check your email.";
         signupForm.reset();
     }
-    async function findMusicFromDatabase(songName) {
+  async function findMusicFromDatabase(songName) {
+    // This tells Supabase: "From the 'songs' table, select everything where song_title equals the user's input"
     let { data: songs, error } = await supabase
         .from('songs')
         .select('*')
@@ -112,6 +113,9 @@ signupForm.addEventListener("submit", async (e) => {
         console.error("Error fetching data:", error);
         return;
     }
+
+    // Now send the 'songs' data to your table rendering function
     renderResults(songs);
+}
 }
 });
