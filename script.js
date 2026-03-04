@@ -29,33 +29,37 @@ searchBtn.addEventListener("click", () => {
 });
 
 
-// Search using iTunes API (Live working example)
-function searchSong(query) {
-  loading.classList.remove("hidden");
-  errorMessage.classList.add("hidden");
-  resultsBody.innerHTML = "";
+// Add 'async' here so the function can "wait" for Supabase
+async function searchSong(query) { 
+    loading.classList.remove("hidden");
+    errorMessage.classList.add("hidden");
+    resultsBody.innerHTML = "";
 
-  // This replaces the entire fetch block
-const { data: songs, error } = await supabase
-    .from('Songs')          // Matches your table name exactly
-    .select('*')            // Select all columns (artist_name, duration, etc.)
-    .eq('song_title', query); // Matches your column name exactly
+    // This replaces the old iTunes fetch
+    const { data: songs, error } = await supabase
+        .from('Songs') 
+        .select('*')
+        .ilike('song_name', `%${query}%`); 
 
-loading.classList.add("hidden"); // Hide the loader after data arrives
+    loading.classList.add("hidden");
 
-if (error) {
-    console.error("Supabase Error:", error);
-    showError("Could not fetch data.");
-    return;
+    if (error) {
+        console.error("Database error:", error);
+        showError("Could not fetch from database.");
+        return;
+    }
+
+    if (songs.length === 0) {
+        showError("No artists found with that song name.");
+        return;
+    }
+
+    // This sends your Supabase data to the table
+    renderResults(songs); 
 }
 
-if (!songs || songs.length === 0) {
-    showError("No artist found in your database.");
-    return;
 }
 
-renderResults(songs); // Send your database rows to the table
-}
 
             if (data.results.length === 0) {
                 showError("No results found.");
