@@ -39,7 +39,7 @@ async function searchSong(query) {
     const { data: songs, error } = await supabase
         .from('Songs') 
         .select('*')
-        .ilike('song_name', `%${query}%`); 
+        .ilike('song_title', `%${query}%`); 
 
     loading.classList.add("hidden");
 
