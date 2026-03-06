@@ -98,7 +98,7 @@ function showError(message) {
     errorMessage.textContent = message;
     errorMessage.classList.remove("hidden");
 }
-// 🔹 Authentication — Signup Code
+//  Authentication — Signup Code
 const signupForm = document.getElementById("signupForm");
 const emailInput = document.getElementById("emailInput");
 const passwordInput = document.getElementById("passwordInput");
@@ -124,12 +124,12 @@ signupForm.addEventListener("submit", async (e) => {
         signupMessage.textContent = "Signup successful! Check your email.";
         signupForm.reset();
     }
-  async function findMusicFromDatabase(songName) {
+  async function findMusicFromDatabase(songTitle) {
     // This tells Supabase: "From the 'songs' table, select everything where song_title equals the user's input"
     let { data: songs, error } = await supabase
         .from('songs')
         .select('*')
-        .eq('song_title', songName);
+        .eq('song_title', songTitle);
 
     if (error) {
         console.error("Error fetching data:", error);
