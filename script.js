@@ -1,10 +1,9 @@
 
- // 🔹 1. Initialize Supabase (ONLY ONCE)
 const supabaseUrl = 'https://anazgxxzlbauilhzexgi.supabase.co';
 const supabaseKey = 'sb_publishable_qPErfSATKVqxKA76WhpUiQ_EpLQONJA';
 const supabase = supabasejs.createClient(supabaseUrl, supabaseKey);
 
-// 🔹 2. Select HTML Elements
+
 const searchBtn = document.getElementById("searchBtn");
 const searchInput = document.getElementById("searchInput");
 const resultsBody = document.getElementById("resultsBody");
@@ -13,7 +12,7 @@ const errorMessage = document.getElementById("errorMessage");
 const signupForm = document.getElementById('signupForm');
 const signupMessage = document.getElementById('signupMessage');
 
-// 🔹 3. Search Logic
+
 searchBtn.addEventListener('click', () => {
     const query = searchInput.value.trim();
     if (query) {
@@ -50,7 +49,7 @@ async function searchSong(query) {
     renderResults(songs);
 }
 
-// 🔹 4. Display Logic
+
 function renderResults(songs) {
     resultsBody.innerHTML = ""; 
     songs.forEach(song => {
@@ -64,7 +63,7 @@ function renderResults(songs) {
     });
 }
 
-// 🔹 5. Signup Logic
+
 signupForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const email = document.getElementById('email').value;
@@ -86,7 +85,7 @@ signupForm.addEventListener('submit', async (e) => {
     }
 });
 
-// 🔹 6. Helpers
+
 function showError(message) {
     errorMessage.textContent = message;
     errorMessage.classList.remove("hidden");
