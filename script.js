@@ -1,7 +1,9 @@
 
 const supabaseUrl = 'https://anazgxxzlbauilhzexgi.supabase.co';
 const supabaseKey = 'sb_publishable_qPErfSATKVqxKA76WhpUiQ_EpLQONJA';
-const supabase = supabasejs.createClient(supabaseUrl, supabaseKey);
+
+const { createClient } = supabase;
+const supabaseClient = createClient(supabaseUrl, supabaseKey);
 
 
 const searchBtn = document.getElementById("searchBtn");
@@ -13,33 +15,39 @@ const signupForm = document.getElementById('signupForm');
 const signupMessage = document.getElementById('signupMessage');
 
 
+// 🔹 3. Search Logic
 searchBtn.addEventListener('click', () => {
     const query = searchInput.value.trim();
+    console.log("Search button clicked! Query entered:", query); // 🔍 Diagnostic line
+    
     if (query) {
         searchSong(query);
     } else {
+        console.warn("Search attempted with empty input."); // 🔍 Diagnostic line
         showError("Please enter a song name.");
     }
 });
 
 async function searchSong(query) { 
+    console.log("Starting Supabase query for:", query); // 🔍 Diagnostic line
     loading.classList.remove("hidden");
     errorMessage.classList.add("hidden");
     resultsBody.innerHTML = "";
 
-    // Queries your 'Songs' table
-    const { data: songs, error } = await supabase
-        .from('Songs') 
-        .select('*')
-        .ilike('song_title', `%${query}%`); // Matches your table column
-
-    loading.classList.add("hidden");
-
+    const { data: songs, error } = await supabaseClient
+    .from('Songs') 
+    .select('*')
+    .ilike('song_title', `%${query}%`);
+    
     if (error) {
-        console.error("Database error:", error);
+        console.error("Supabase Error details:", error); // 🔍 This will show the exact DB error
         showError("Could not fetch from database.");
+        loading.classList.add("hidden");
         return;
     }
+
+    console.log("Data received from Supabase:", songs); // 🔍 Diagnostic line
+    loading.classList.add("hidden");
 
     if (!songs || songs.length === 0) {
         showError("No artists found in your database.");
@@ -48,6 +56,7 @@ async function searchSong(query) {
 
     renderResults(songs);
 }
+
 
 
 function renderResults(songs) {
@@ -72,7 +81,7 @@ signupForm.addEventListener('submit', async (e) => {
     signupMessage.innerText = "Signing up...";
     signupMessage.classList.remove("hidden");
 
-    const { data, error } = await supabase.auth.signUp({
+    const { data, error } = await supabaseClient.auth.signUp({
         email: email,
         password: password,
     });
