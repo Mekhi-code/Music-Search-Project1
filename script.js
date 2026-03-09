@@ -1,7 +1,9 @@
 
 const supabaseUrl = 'https://anazgxxzlbauilhzexgi.supabase.co';
 const supabaseKey = 'sb_publishable_qPErfSATKVqxKA76WhpUiQ_EpLQONJA';
-const supabase = supabasejs.createClient(supabaseUrl, supabaseKey);
+
+const { createClient } = supabase;
+const supabaseClient = createClient(supabaseUrl, supabaseKey);
 
 
 const searchBtn = document.getElementById("searchBtn");
@@ -32,11 +34,11 @@ async function searchSong(query) {
     errorMessage.classList.add("hidden");
     resultsBody.innerHTML = "";
 
-    const { data: songs, error } = await supabase
-        .from('Songs') 
-        .select('*')
-        .ilike('song_title', `%${query}%`); 
-
+    const { data: songs, error } = await supabaseClient
+    .from('Songs') 
+    .select('*')
+    .ilike('song_title', `%${query}%`);
+    
     if (error) {
         console.error("Supabase Error details:", error); // 🔍 This will show the exact DB error
         showError("Could not fetch from database.");
@@ -79,7 +81,7 @@ signupForm.addEventListener('submit', async (e) => {
     signupMessage.innerText = "Signing up...";
     signupMessage.classList.remove("hidden");
 
-    const { data, error } = await supabase.auth.signUp({
+    const { data, error } = await supabaseClient.auth.signUp({
         email: email,
         password: password,
     });
