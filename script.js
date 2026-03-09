@@ -56,8 +56,12 @@ async function searchSong(query) {
 
     // This sends your Supabase data to the table
     renderResults(songs); 
+    
 }
-
+// Add this inside your searchSong(query) function
+await supabase
+    .from('search_history')
+    .insert([{ search_term: query }]); // Saves the data to your DB
 }
 
 
