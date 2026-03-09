@@ -8,6 +8,39 @@ const resultsBody = document.getElementById("resultsBody");
 const loading = document.getElementById("loading");
 const errorMessage = document.getElementById("errorMessage");
 const imageUpload = document.getElementById("imageUpload");
+const searchBtn = document.getElementById('searchBtn');
+const searchInput = document.getElementById('searchInput');
+
+searchBtn.addEventListener('click', () => {
+    const query = searchInput.value.trim();
+    if (query) {
+        searchSong(query); // This calls your Supabase function from Screenshot 6
+const signupForm = document.getElementById('signupForm');
+const signupMessage = document.getElementById('signupMessage');
+
+signupForm.addEventListener('submit', async (e) => {
+    e.preventDefault(); // Prevents the page from refreshing
+    
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    // Use the Supabase Auth signup method
+    const { data, error } = await supabase.auth.signUp({
+        email: email,
+        password: password,
+    });
+
+    if (error) {
+        signupMessage.innerText = "Error: " + error.message;
+        signupMessage.classList.remove("hidden");
+    } else {
+        signupMessage.innerText = "Success! Please check your email.";
+        signupMessage.classList.remove("hidden");
+        signupForm.reset();
+    }
+});
+    }
+});
 
 // Convert milliseconds to mm:ss format
 function formatDuration(ms) {
