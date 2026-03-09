@@ -1,16 +1,16 @@
-// 🔹 Initialize Supabase
+// 🔹 1. Initialize Supabase (This must be at the very top!)
 const supabaseUrl = 'https://anazgxxzlbauilhzexgi.supabase.co';
 const supabaseKey = 'sb_publishable_qPErfSATKVqxKA76WhpUiQ_EpLQONJA';
 const supabase = supabasejs.createClient(supabaseUrl, supabaseKey);
+
+// 🔹 2. Select HTML Elements (Using the IDs from your index.html)
 const searchBtn = document.getElementById("searchBtn");
 const searchInput = document.getElementById("searchInput");
 const resultsBody = document.getElementById("resultsBody");
 const loading = document.getElementById("loading");
 const errorMessage = document.getElementById("errorMessage");
-const imageUpload = document.getElementById("imageUpload");
-const searchBtn = document.getElementById('searchBtn');
-const searchInput = document.getElementById('searchInput');
-
+const signupForm = document.getElementById('signupForm');
+const signupMessage = document.getElementById('signupMessage');
 searchBtn.addEventListener('click', () => {
     const query = searchInput.value.trim();
     if (query) {
@@ -62,13 +62,12 @@ searchBtn.addEventListener("click", () => {
 });
 
 
-// Add 'async' here so the function can "wait" for Supabase
 async function searchSong(query) { 
     loading.classList.remove("hidden");
     errorMessage.classList.add("hidden");
     resultsBody.innerHTML = "";
 
-    // This replaces the old iTunes fetch
+    // Search your 'Songs' table (Note: Ensure the 'S' is capitalized to match your DB)
     const { data: songs, error } = await supabase
         .from('Songs') 
         .select('*')
@@ -82,14 +81,16 @@ async function searchSong(query) {
         return;
     }
 
-    if (songs.length === 0) {
+    if (!songs || songs.length === 0) {
         showError("No artists found with that song name.");
         return;
     }
 
-    // This sends your Supabase data to the table
-    renderResults(songs); 
-    
+    // Render the results from Supabase
+    renderResults(songs);
+
+    // Optional: Save to history (Only if you created a 'search_history' table)
+    // await supabase.from('search_history').insert([{ search_term: query }]);
 }
 // Add this inside your searchSong(query) function
 await supabase
@@ -175,6 +176,20 @@ signupForm.addEventListener("submit", async (e) => {
 
     // Now send the 'songs' data to your table rendering function
     renderResults(songs);
+
 }
+function renderResults(songs) {
+    resultsBody.innerHTML = ""; // Clear existing rows
+    songs.forEach(song => {
+        const row = document.createElement("tr");
+
+        // Uses 'artist_name' and 'duration' from your Supabase table
+        row.innerHTML = `
+            <td>${song.artist_name}</td>
+            <td>${song.duration}</td>
+        `;
+
+        resultsBody.appendChild(row);
+    });
 }
 });
