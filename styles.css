@@ -5,12 +5,18 @@
     box-sizing: border-box;
 }
 
+.hidden {
+    display: none !important;
+}
+
 body {
     font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
     background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
     color: #ffffff;
     min-height: 100vh;
 }
+
+
 
 /* ===== CONTAINER ===== */
 .container {
@@ -165,10 +171,7 @@ hr {
     h1 {
         font-size: 42px;
     }
-    /* This rule is required for your JavaScript hide/show logic to work */
-.hidden {
-    display: none !important;
-}
+    
     #loading {
     margin-top: 20px;
     text-align: center;
