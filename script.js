@@ -88,6 +88,8 @@ function renderResults(songs) {
         `;
 
         resultsBody.appendChild(row);
+// Add this right after renderResults(songs);
+document.querySelector(".results-section").classList.remove("hidden");
     });
 }
 
