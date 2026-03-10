@@ -60,16 +60,21 @@ async function searchSong(query) {
 
 
 function renderResults(songs) {
-    resultsBody.innerHTML = ""; 
+
+    resultsBody.innerHTML = "";
+
     songs.forEach(song => {
         const row = document.createElement("tr");
-        // Ensure these match your Supabase column names exactly
+
         row.innerHTML = `
             <td>${song.artist_name}</td>
             <td>${song.duration}</td>
         `;
+
         resultsBody.appendChild(row);
     });
+
+    resultsSection.classList.remove("hidden");
 }
 
 
