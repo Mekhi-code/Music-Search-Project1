@@ -34,19 +34,16 @@ showError("Please enter a song name.");
 });
 
 
-
 async function searchSong(query){
 
 loading.classList.remove("hidden");
 errorMessage.classList.add("hidden");
 resultsBody.innerHTML = "";
 
-await saveSearch(query);
-
 const { data: songs, error } = await supabaseClient
-.from("Songs")
+.from("songs")
 .select("*")
-.ilike("song_title", `%${query}%`);
+.or(`song_title.ilike.%${query}%,artist_name.ilike.%${query}%`);
 
 loading.classList.add("hidden");
 
@@ -60,6 +57,8 @@ if(!songs || songs.length === 0){
 showError("No artists found in your database.");
 return;
 }
+
+await saveSearch(query);
 
 renderResults(songs);
 
