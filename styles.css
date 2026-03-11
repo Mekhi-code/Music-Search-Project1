@@ -10,9 +10,10 @@
 }
 
 body {
-    /* Changed to a clean, vibrant white background */
     font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
-    background-color: #ffffff;
+    /* Updated to a vibrant blue and pink gradient */
+    background: linear-gradient(135deg, #4facfe 0%, #f093fb 100%);
+    background-attachment: fixed; /* Keeps gradient consistent while scrolling */
     color: #000000;
     min-height: 100vh;
     line-height: 1.2;
@@ -20,16 +21,16 @@ body {
 
 /* ===== CONTAINER ===== */
 .container {
-    max-width: 1200px; /* Wider for that big-screen editorial look */
+    max-width: 1200px;
     margin: 40px auto;
     padding: 80px 40px;
-    /* Removed the dark glassmorphism for a clean flat look */
-    background: transparent;
+    background: rgba(255, 255, 255, 0.85); /* Slight transparency to show gradient */
+    backdrop-filter: blur(10px);
+    border-radius: 0px;
 }
 
 /* ===== HEADINGS ===== */
 h1 {
-    /* Massive, bold typography similar to your first screenshot */
     font-size: clamp(48px, 8vw, 120px); 
     font-weight: 900;
     letter-spacing: -4px;
@@ -49,7 +50,7 @@ h2 {
 .subtitle {
     font-size: 20px;
     font-weight: 500;
-    color: #555;
+    color: #333;
     margin-bottom: 50px;
     max-width: 800px;
 }
@@ -58,9 +59,10 @@ h2 {
 .signup-section, .search-section {
     margin-bottom: 60px;
     padding: 40px;
-    background: #f8f8f8; /* Light grey contrast areas */
-    border-radius: 0px; /* Sharp edges for a modern feel */
-    border-left: 8px solid #ff00ff; /* Vibrant accent strip */
+    background: #ffffff; 
+    border-radius: 0px;
+    /* Changed accent strip to vibrant orange */
+    border-left: 10px solid #ff8c00; 
 }
 
 /* ===== INPUTS ===== */
@@ -79,8 +81,8 @@ input[type="file"] {
 }
 
 input:focus {
-    border-color: #00d9f5;
-    box-shadow: 5px 5px 0px #000; /* Pop-art style focus */
+    border-color: #ff8c00; /* Orange focus border */
+    box-shadow: 5px 5px 0px #000;
 }
 
 /* ===== BUTTONS ===== */
@@ -92,8 +94,8 @@ button {
     border: 2px solid #000;
     border-radius: 0px;
     cursor: pointer;
-    /* Vibrant Magenta/Cyan vibe from your second screenshot */
-    background: #ff00ff; 
+    /* Changed button color to vibrant orange */
+    background: #ff8c00; 
     color: #fff;
     transition: all 0.2s ease;
 }
@@ -102,7 +104,7 @@ button:hover {
     background: #000;
     color: #fff;
     transform: translate(-4px, -4px);
-    box-shadow: 6px 6px 0px #00d9f5;
+    box-shadow: 6px 6px 0px #ffdb58; /* Slight yellow-orange shadow */
 }
 
 /* ===== TABLE ===== */
@@ -124,18 +126,18 @@ th {
 
 td {
     padding: 20px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #ddd;
     font-size: 18px;
     font-weight: 500;
 }
 
 tbody tr:hover {
-    background: #f0f0f0;
+    background: rgba(255, 140, 0, 0.1); /* Subtle orange hover for rows */
 }
 
-/* ===== ERROR & LOADING ===== */
+/* ===== STATUS & ERRORS ===== */
 #loading {
-    color: #ff00ff;
+    color: #ff8c00;
     font-weight: 900;
     text-transform: uppercase;
 }
@@ -145,12 +147,14 @@ tbody tr:hover {
     color: #fff;
     padding: 20px;
     font-weight: bold;
+    border: 2px solid #ff4500;
 }
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
     .container {
         padding: 40px 20px;
+        margin: 0;
     }
 
     h1 {
